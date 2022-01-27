@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Forecast Demo</string>
+    <string name="loading_message">Fetching Forecast. Please wait…</string>
+    <string name="fetching_contributors_error">There seems to be an error fetching weather forecast. Try again later</string>
+    <string name="connectivity_error">No internet connection. Try again.</string>
+    <string name="weather_image_description">%s weather image</string>
+    <string name="current_weather_status">Wind: %1$s m/s \nPressure: %2$d hpa\nHumidity: %3$d %% </string>
+    <string name="temp">%.2f °C</string>
+    <string name="live_mode">Live Mode</string>
+</resources>
