@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ow.forecast.R
 import com.ow.forecast.databinding.ActivityMainBinding
 import com.ow.forecast.ui.forecast.ForecastFragment
+import kotlinx.coroutines.*
+
+
 import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
@@ -23,9 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         binding = null
-
     }
 
     fun showProgress() {
