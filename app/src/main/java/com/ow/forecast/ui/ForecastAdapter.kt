@@ -1,6 +1,5 @@
-package com.ow.forecast.ui.forecast
+package com.ow.forecast.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,7 @@ import com.ow.forecast.models.ForecastItem
 import com.ow.forecast.utilities.Constants
 import com.ow.forecast.utilities.DateTimeConversion
 
-class ForecastAdapter(private val mForecasts: List<ForecastItem?>, private val mContext: Context) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
+class ForecastAdapter(private val mForecasts: List<ForecastItem>?) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemWeatherBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -22,7 +21,7 @@ class ForecastAdapter(private val mForecasts: List<ForecastItem?>, private val m
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            val mForecastItem = mForecasts[position]
+            val mForecastItem = mForecasts?.get(position)
 
             binding.tvTemp.text = binding.root.context.getString(R.string.temp, mForecastItem?.main!!.temp)
             binding.tvTime.text = DateTimeConversion.changeDateFormat(mForecastItem.dtTxt!!)
@@ -43,6 +42,6 @@ class ForecastAdapter(private val mForecasts: List<ForecastItem?>, private val m
     }
 
     override fun getItemCount(): Int {
-        return mForecasts.size
+        return mForecasts?.size ?: 0
     }
 }

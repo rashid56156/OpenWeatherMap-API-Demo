@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class WeatherForecast(
+data class Weather(
 
 	@field:SerializedName("city")
 	val city: City? = null,
@@ -20,7 +20,7 @@ data class WeatherForecast(
 	val message: Int? = null,
 
 	@field:SerializedName("list")
-	val list: List<ForecastItem?>? = null
+	val list: MutableList<ForecastItem>? = null
 ) : Parcelable
 
 @Parcelize

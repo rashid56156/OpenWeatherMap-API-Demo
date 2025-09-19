@@ -5,12 +5,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.ow.forecast.R
 import com.ow.forecast.databinding.ActivityMainBinding
-import com.ow.forecast.ui.forecast.ForecastFragment
-import kotlinx.coroutines.*
-
-
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
