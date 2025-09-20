@@ -5,23 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ow.forecast.databinding.FragmentForecastBinding
 import com.ow.forecast.models.ForecastItem
-import kotlin.collections.ArrayList
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.SnapHelper
 import androidx.fragment.app.viewModels
+import com.ow.forecast.api.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ForecastFragment : Fragment() {
 
     private lateinit var binding: FragmentForecastBinding
-    private lateinit var act: MainActivity
     private val viewModel: ForecastViewModel by viewModels()
-    private var mForecasts: ArrayList<ForecastItem>? = arrayListOf()
+    private var mForecasts: MutableList<ForecastItem>? = mutableListOf()
     private lateinit var mAdapter: ForecastAdapter
 
 
@@ -32,7 +30,6 @@ class ForecastFragment : Fragment() {
     ): View {
         binding = FragmentForecastBinding.inflate(inflater, container, false)
 
-        act = activity as MainActivity
         setupUI()
         setupObservers()
 
@@ -48,27 +45,40 @@ class ForecastFragment : Fragment() {
     }
 
     private fun setupObservers() {
-
         viewModel.apply {
-            weather.observe(viewLifecycleOwner) { data ->
-                if (data != null) {
-                    updateForecasts(data)
-                }
-            }
-            isLoading.observe(viewLifecycleOwner) { it ->
-                if (it) act.showProgress() else act.hideProgress()
+            weatherResult.observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is ApiResult.Success -> {
+                        hideLoading()
+                        updateForecastList(result.data.list)
+                    }
 
+                    is ApiResult.Error -> {
+                        hideLoading()
+                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    is ApiResult.Loading -> {
+                        showLoading()
+                    }
+                }
             }
         }
     }
 
 
-    private fun updateForecasts(items: List<ForecastItem>) {
+    private fun updateForecastList(items: MutableList<ForecastItem>?) {
         mForecasts?.clear()
-        mForecasts?.addAll(items)
+        mForecasts?.addAll(items?.toList() ?: emptyList())
         mAdapter.notifyDataSetChanged()
-        act.hideProgress()
     }
 
+    private fun showLoading() {
+        binding.pbLoading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.pbLoading.visibility = View.INVISIBLE
+    }
 
 }

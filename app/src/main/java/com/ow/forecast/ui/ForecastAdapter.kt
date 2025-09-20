@@ -8,9 +8,9 @@ import com.ow.forecast.R
 import com.ow.forecast.databinding.ItemWeatherBinding
 import com.ow.forecast.models.ForecastItem
 import com.ow.forecast.utilities.Constants
-import com.ow.forecast.utilities.DateTimeConversion
+import com.ow.forecast.utilities.Util
 
-class ForecastAdapter(private val mForecasts: List<ForecastItem>?) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
+class ForecastAdapter(private val mForecasts: MutableList<ForecastItem>?) : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemWeatherBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -24,7 +24,7 @@ class ForecastAdapter(private val mForecasts: List<ForecastItem>?) : RecyclerVie
             val mForecastItem = mForecasts?.get(position)
 
             binding.tvTemp.text = binding.root.context.getString(R.string.temp, mForecastItem?.main!!.temp)
-            binding.tvTime.text = DateTimeConversion.changeDateFormat(mForecastItem.dtTxt!!)
+            binding.tvTime.text = Util.changeDateFormat(mForecastItem.dtTxt!!)
             binding.tvWeatherDescription.text = binding.root.context.getString(
                 R.string.current_weather_status,
                 mForecastItem.wind!!.speed.toString(),

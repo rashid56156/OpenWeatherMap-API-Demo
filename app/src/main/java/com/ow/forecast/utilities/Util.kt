@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-object DateTimeConversion {
+object Util {
     private const val TIME_FORMAT = "hh:mm aaa"
     private const val DATE_TIME_FORMAT = "EEE dd MMM yyyy hh:mm aaa"
 

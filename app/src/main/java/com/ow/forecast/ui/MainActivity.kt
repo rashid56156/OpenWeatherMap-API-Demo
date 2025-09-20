@@ -1,12 +1,10 @@
 package com.ow.forecast.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.ow.forecast.R
 import com.ow.forecast.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -25,22 +23,5 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         binding = null
-    }
-
-    fun showProgress() {
-        try {
-            binding!!.progress.visibility = View.VISIBLE
-        } catch(e: Exception){
-            e.printStackTrace()
-        }
-    }
-
-    fun hideProgress() {
-        try {
-            binding!!.progress.visibility = View.INVISIBLE
-        } catch(e: Exception){
-            e.printStackTrace()
-        }
-
     }
 }
