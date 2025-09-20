@@ -1,6 +1,3 @@
-Here’s a **professional README.md** template you can drop into your GitHub repo for your working Android project. It explains what the project is, how it’s structured, and how to run it.
-
----
 
 # 🌦️ WeatherApp (Kotlin + Hilt + Retrofit + MVVM)
 
