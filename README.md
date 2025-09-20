@@ -100,7 +100,6 @@ implementation "androidx.hilt:hilt-navigation-fragment:1.2.0"
 
 ## 🚀 Future Improvements
 
-* Add error handling with `sealed class Result<Success, Error>`
 * Implement **Paging 3** for large data sets
 * Add **Unit Tests** with JUnit & MockK
 * Add **Room Database** for offline caching
