@@ -55,11 +55,6 @@
             android:textColor="@color/colorBlack"
             tools:text="Few Clouds \nPressure:1234hpa \nHumidity:23 %" />
 
-
-
-
-
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -18,9 +18,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class ForecastFragment : Fragment() {
 
     private lateinit var binding: FragmentForecastBinding
-    private val viewModel: ForecastViewModel by viewModels()
+    private val viewModel: WeatherViewModel by viewModels()
     private var mForecasts: MutableList<ForecastItem>? = mutableListOf()
-    private lateinit var mAdapter: ForecastAdapter
+    private lateinit var mAdapter: WeatherAdapter
 
 
     override fun onCreateView(
@@ -38,7 +38,7 @@ class ForecastFragment : Fragment() {
 
 
     private fun setupUI() {
-        mAdapter = ForecastAdapter(mForecasts)
+        mAdapter = WeatherAdapter(mForecasts)
         binding.rvForecast.layoutManager =
             LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         binding.rvForecast.adapter = mAdapter

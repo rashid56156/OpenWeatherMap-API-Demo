@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ForecastViewModel @Inject constructor(val repo: WeatherRepository) : ViewModel() {
+class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewModel() {
 
     private val _weatherResult = MutableLiveData<ApiResult<Weather>>()
     val weatherResult: LiveData<ApiResult<Weather>> = _weatherResult

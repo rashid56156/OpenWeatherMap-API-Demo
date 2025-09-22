@@ -7,7 +7,7 @@ import com.ow.forecast.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class WeatherActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
 
