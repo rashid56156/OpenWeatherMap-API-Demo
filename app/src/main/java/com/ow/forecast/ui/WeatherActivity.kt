@@ -16,8 +16,9 @@ class WeatherActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
-        val fm = supportFragmentManager
-        fm.beginTransaction().replace(R.id.frameContainer, ForecastFragment()).commit()
+
+        supportFragmentManager.beginTransaction().replace(R.id.frameContainer, ForecastFragment())
+            .commit()
     }
 
     override fun onDestroy() {
