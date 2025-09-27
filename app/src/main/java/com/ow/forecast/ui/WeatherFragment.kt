@@ -15,7 +15,7 @@ import com.ow.forecast.api.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ForecastFragment : Fragment() {
+class WeatherFragment : Fragment() {
 
     private lateinit var binding: FragmentForecastBinding
     private val viewModel: WeatherViewModel by viewModels()

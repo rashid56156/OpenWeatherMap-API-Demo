@@ -17,7 +17,7 @@ class WeatherActivity : AppCompatActivity() {
         setContentView(binding!!.root)
 
 
-        supportFragmentManager.beginTransaction().replace(R.id.frameContainer, ForecastFragment())
+        supportFragmentManager.beginTransaction().replace(R.id.frameContainer, WeatherFragment())
             .commit()
     }
 

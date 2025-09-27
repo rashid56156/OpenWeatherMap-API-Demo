@@ -12,6 +12,8 @@ import com.ow.forecast.utilities.Constants
 class WeatherAdapter(private val mForecasts: MutableList<ForecastItem>?) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
+    class WeatherViewHolder(val binding: ItemWeatherBinding) : RecyclerView.ViewHolder(binding.root)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         val binding = ItemWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -47,6 +49,4 @@ class WeatherAdapter(private val mForecasts: MutableList<ForecastItem>?) :
     override fun getItemCount(): Int {
         return mForecasts?.size ?: 0
     }
-
-    class WeatherViewHolder(val binding: ItemWeatherBinding) : RecyclerView.ViewHolder(binding.root)
 }
