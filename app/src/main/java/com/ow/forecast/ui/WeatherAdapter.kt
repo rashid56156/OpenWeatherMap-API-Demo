@@ -24,8 +24,7 @@ class WeatherAdapter(private val mForecasts: MutableList<ForecastItem>?) :
             val mForecastItem = mForecasts?.get(position)
 
             holder.binding.apply {
-                tvTemp.text =
-                    root.context.getString(R.string.temp, mForecastItem?.main!!.temp)
+                tvTemp.text = root.context.getString(R.string.temp, mForecastItem?.main!!.temp)
                 tvTime.text = mForecastItem.dtTxt
                 tvWeatherDescription.text = root.context.getString(
                     R.string.current_weather_status,

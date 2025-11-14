@@ -11,8 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ow.forecast.databinding.FragmentForecastBinding
 import com.ow.forecast.models.ForecastItem
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.ow.forecast.api.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
@@ -25,13 +30,13 @@ class WeatherFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?,
+        parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentForecastBinding.inflate(inflater, container, false)
+        binding = FragmentForecastBinding.inflate(inflater, parent, false)
 
         setupUI()
-        setupObservers()
+        collectWeatherFlow()
 
         return binding.root
     }
@@ -44,22 +49,20 @@ class WeatherFragment : Fragment() {
         binding.rvForecast.adapter = mAdapter
     }
 
-    private fun setupObservers() {
-        viewModel.apply {
-            weatherResult.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is ApiResult.Success -> {
-                        hideLoading()
-                        updateForecastList(result.data.list)
-                    }
-
-                    is ApiResult.Error -> {
-                        hideLoading()
-                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
-                    }
-
-                    is ApiResult.Loading -> {
-                        showLoading()
+    private fun collectWeatherFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.weatherResult.collectLatest { result ->
+                    when (result) {
+                        is ApiResult.Success -> {
+                            hideLoading()
+                            updateForecastList(result.data.list)
+                        }
+                        is ApiResult.Error -> {
+                            hideLoading()
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is ApiResult.Loading -> showLoading()
                     }
                 }
             }

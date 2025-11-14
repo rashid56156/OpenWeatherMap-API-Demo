@@ -3,26 +3,31 @@ package com.ow.forecast.repo
 import com.ow.forecast.api.ApiService
 import com.ow.forecast.models.Weather
 import com.ow.forecast.api.ApiResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(private val api: ApiService) {
 
-    // Suspended function to fetch weather data from the API
-    suspend fun getWeather(): ApiResult<Weather> {
-        return try {
-            // Make a network call to get the weather forecast
+    // function to fetch weather data from the API
+    fun getWeather(): Flow<ApiResult<Weather>> = flow {
+        // Step 1: Emit Loading before making the network call
+        emit(ApiResult.Loading)
+
+        try {
             val response = api.getWeatherForecast()
-            // Check if the response code indicates success
+
             if (response.cod.equals("200", ignoreCase = true)) {
-                // Return a successful result with the weather data
-                ApiResult.Success(response)
+                // Step 2: Emit Success state
+                emit(ApiResult.Success(response))
             } else {
-                // Return an error result with the API error code
-                ApiResult.Error("API Error", response.cod?.toIntOrNull())
+                // Step 3: Emit Error state with API error
+                emit(ApiResult.Error("API Error", response.cod?.toIntOrNull()))
             }
+
         } catch (e: Exception) {
-            // Handle exceptions and return an error result with the exception message
-            ApiResult.Error(e.localizedMessage ?: "Unknown Error")
+            // Step 4: Emit Error state for exceptions
+            emit(ApiResult.Error(e.localizedMessage ?: "Unknown Error"))
         }
     }
 

@@ -67,6 +67,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.9.4"
 
+
+
     // Fragment KTX (for by viewModels)
     implementation "androidx.fragment:fragment-ktx:1.8.9"
 
@@ -79,8 +81,8 @@ dependencies {
     // Kotlin Coroutines Android-specific extensions (for lifecycle-aware coroutine scopes)
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
 
-    implementation "com.google.dagger:hilt-android:2.57.1"
-    kapt "com.google.dagger:hilt-android-compiler:2.57.1"
+    implementation "com.google.dagger:hilt-android:2.57.2"
+    kapt "com.google.dagger:hilt-android-compiler:2.57.2"
 
 
     // Retrofit & okHttp
@@ -95,5 +97,9 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:5.0.5'
     annotationProcessor 'com.github.bumptech.glide:compiler:5.0.5'
+
+    //Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.3.6"
+
 
 }
