@@ -37,6 +37,7 @@ class WeatherFragment : Fragment() {
 
         setupUI()
         collectWeatherFlow()
+        viewModel.fetchWeatherForecast()
 
         return binding.root
     }
