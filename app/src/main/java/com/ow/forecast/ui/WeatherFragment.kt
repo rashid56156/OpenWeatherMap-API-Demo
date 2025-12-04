@@ -52,17 +52,24 @@ class WeatherFragment : Fragment() {
 
     private fun collectWeatherFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
+
+            // ✅ Only collect when Fragment VIEW is visible
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                // ✅ Start collecting StateFlow
                 viewModel.weatherResult.collectLatest { result ->
+
                     when (result) {
                         is ApiResult.Success -> {
                             hideLoading()
                             updateForecastList(result.data.list)
                         }
+
                         is ApiResult.Error -> {
                             hideLoading()
                             Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
                         }
+
                         is ApiResult.Loading -> showLoading()
                     }
                 }
