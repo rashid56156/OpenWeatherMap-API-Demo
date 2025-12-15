@@ -1,6 +1,6 @@
 package com.ow.forecast.di
 
-import com.ow.forecast.repo.DefaultWeatherRepository
+import com.ow.forecast.repo.WeatherRepositoryImpl
 import com.ow.forecast.repo.WeatherRepository
 import dagger.Binds
 import dagger.Module
@@ -13,6 +13,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindWeatherRepository(
-        impl: DefaultWeatherRepository
+        impl: WeatherRepositoryImpl
     ): WeatherRepository
 }

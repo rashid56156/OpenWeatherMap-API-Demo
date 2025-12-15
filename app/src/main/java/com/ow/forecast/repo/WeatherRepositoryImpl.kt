@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class DefaultWeatherRepository @Inject constructor(private val api: ApiService) : WeatherRepository {
+class WeatherRepositoryImpl @Inject constructor(private val api: ApiService) : WeatherRepository {
 
     // function to fetch weather data from the API
     override fun getWeather(): Flow<ApiResult<Weather>> = flow {
