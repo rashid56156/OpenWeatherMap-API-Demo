@@ -6,6 +6,7 @@ import java.util.Locale
 
 object Utilities {
 
+    
     fun formatDate(input: String?): String {
         if(input == null) return ""
         val inputFormatter = DateTimeFormatter.ofPattern(
