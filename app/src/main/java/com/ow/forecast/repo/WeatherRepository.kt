@@ -1,9 +1,9 @@
 package com.ow.forecast.repo
 
 import com.ow.forecast.models.Weather
-import com.ow.forecast.api.ApiResult
+import com.ow.forecast.api.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {
-    fun getWeather(): Flow<ApiResult<Weather>>
+    fun getWeather(): Flow<ApiResponse<Weather>>
 }

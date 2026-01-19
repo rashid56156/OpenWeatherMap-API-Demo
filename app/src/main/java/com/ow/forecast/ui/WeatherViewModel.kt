@@ -1,10 +1,9 @@
 package com.ow.forecast.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ow.forecast.repo.WeatherRepository
-import com.ow.forecast.api.ApiResult
+import com.ow.forecast.api.ApiResponse
 import com.ow.forecast.models.ForecastUiModel
 import com.ow.forecast.models.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,13 +36,13 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
 
     // Expose immutable StateFlow
     @OptIn(ExperimentalCoroutinesApi::class)
-    val weatherResult: StateFlow<ApiResult<Weather>> =
+    val weatherResult: StateFlow<ApiResponse<Weather>> =
         refreshTrigger
             .flatMapLatest {
                 repo.getWeather()
             }
             .onEach { result ->
-                if (result is ApiResult.Success) {
+                if (result is ApiResponse.Success) {
                     _forecastCache.value = result.data.list.orEmpty().mapNotNull { item ->
                         val id = item.dt ?: return@mapNotNull null
                         ForecastUiModel(
@@ -61,7 +60,7 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.Eagerly,
-                initialValue = ApiResult.Loading
+                initialValue = ApiResponse.Loading
             )
 
 
@@ -74,7 +73,6 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
     // 🔍 Used by details screen
     fun getForecastById(id: Int): ForecastUiModel? {
         val list = _forecastCache.value
-        Log.d("DT Size", list.size.toString())
         return list.firstOrNull { it.id == id }
     }
 

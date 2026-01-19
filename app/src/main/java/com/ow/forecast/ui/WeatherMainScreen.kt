@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ow.forecast.R
-import com.ow.forecast.api.ApiResult
+import com.ow.forecast.api.ApiResponse
 import com.ow.forecast.models.ForecastUiModel
 
 @Composable
@@ -72,7 +72,7 @@ fun WeatherScreen(
     val result by viewModel.weatherResult.collectAsStateWithLifecycle()
 
     when (result) {
-        is ApiResult.Loading -> {
+        is ApiResponse.Loading -> {
             // render loading UI
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -82,12 +82,12 @@ fun WeatherScreen(
             }
         }
 
-        is ApiResult.Success -> {
+        is ApiResponse.Success -> {
             val list = viewModel.forecastCache.collectAsState().value
             WeatherList(LocalContext.current, list, onClick = onClick)
         }
 
-        is ApiResult.Error -> {
+        is ApiResponse.Error -> {
             // optionally show error UI; toast already shown via LaunchedEffect
             Box(
                 modifier = Modifier

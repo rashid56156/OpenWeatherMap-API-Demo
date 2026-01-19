@@ -1,5 +1,4 @@
-import com.ow.forecast.api.ApiResult
-import com.ow.forecast.models.ForecastItem
+import com.ow.forecast.api.ApiResponse
 import com.ow.forecast.models.Weather
 import com.ow.forecast.ui.WeatherViewModel
 import junit.framework.TestCase.assertTrue
@@ -37,7 +36,7 @@ class WeatherViewModelTest {
         )
 
         val fakeRepo = FakeWeatherRepository(
-            result = ApiResult.Success(fakeWeather)
+            result = ApiResponse.Success(fakeWeather)
         )
 
         viewModel = WeatherViewModel(fakeRepo)
@@ -64,9 +63,9 @@ class WeatherViewModelTest {
         // Then
         val value = viewModel.weatherResult.value
 
-        assertTrue(value is ApiResult.Success)
+        assertTrue(value is ApiResponse.Success)
 
-        val success = value as ApiResult.Success
+        val success = value as ApiResponse.Success
         assertEquals("200", success.data.cod)
 
         job.cancel()
