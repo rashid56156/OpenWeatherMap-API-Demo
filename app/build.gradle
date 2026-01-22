@@ -73,18 +73,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.10.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.10.0"
-    implementation 'androidx.activity:activity:1.12.1'
+    implementation 'androidx.activity:activity-ktx:1.12.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.10.0'
-
-
-    testImplementation "junit:junit:4.13.2"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
-    testImplementation "io.mockk:mockk:1.14.6"
-    testImplementation "com.squareup.okhttp3:mockwebserver:5.3.2"
-
-    // For coroutine testing with Flow
-    testImplementation "app.cash.turbine:turbine:1.2.1"
-
 
     // Fragment KTX (for by viewModels)
     implementation "androidx.fragment:fragment-ktx:1.8.9"
@@ -98,8 +88,8 @@ dependencies {
     // Kotlin Coroutines Android-specific extensions (for lifecycle-aware coroutine scopes)
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
 
-    implementation "com.google.dagger:hilt-android:2.57.2"
-    kapt "com.google.dagger:hilt-android-compiler:2.57.2"
+    implementation "com.google.dagger:hilt-android:2.58"
+    kapt "com.google.dagger:hilt-android-compiler:2.58"
 
 
     // Retrofit & okHttp
@@ -111,16 +101,12 @@ dependencies {
     //gson
     implementation 'com.google.code.gson:gson:2.13.2'
 
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:5.0.5'
-    annotationProcessor 'com.github.bumptech.glide:compiler:5.0.5'
-
     //Paging
     implementation "androidx.paging:paging-runtime-ktx:3.3.6"
     implementation "org.jetbrains.kotlin:kotlin-test:2.2.20"
 
     // ✅ Compose BOM (manages all versions automatically)
-    implementation platform('androidx.compose:compose-bom:2025.12.00')
+    implementation platform('androidx.compose:compose-bom:2026.01.00')
 
     // ✅ Core Compose UI
     implementation 'androidx.compose.ui:ui'
@@ -130,7 +116,7 @@ dependencies {
     implementation 'androidx.compose.material3:material3'
 
     // ✅ Activity support for Compose
-    implementation 'androidx.activity:activity-compose:1.12.1'
+    implementation 'androidx.activity:activity-compose:1.12.2'
 
     // ✅ Debug tools (optional but recommended)
     debugImplementation 'androidx.compose.ui:ui-tooling'
@@ -144,6 +130,16 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.3.0"
 
     implementation "androidx.navigation:navigation-compose:2.9.6"
+
+
+    // Testing
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
+    testImplementation "io.mockk:mockk:1.14.7"
+    testImplementation "com.squareup.okhttp3:mockwebserver:5.3.2"
+    testImplementation "app.cash.turbine:turbine:1.2.1"
+    testImplementation "org.mockito:mockito-core:5.21.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:6.2.1"
 
 
 

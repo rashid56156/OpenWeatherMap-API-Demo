@@ -58,9 +58,9 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
                 }
             }
             .stateIn(
+                initialValue = ApiResponse.Loading,
                 scope = viewModelScope,
-                started = SharingStarted.Eagerly,
-                initialValue = ApiResponse.Loading
+                started = SharingStarted.Eagerly
             )
 
 
