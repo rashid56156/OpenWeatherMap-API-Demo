@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.io.IOException
 import kotlin.test.assertEquals
 
 
@@ -54,7 +55,7 @@ class WeatherViewModelTest {
             // When
             viewModel.fetchWeatherForecast()
 
-            // Then: First emission might be Loading
+            // Then: First emission is always Loading
             val first = awaitItem()
             assertTrue(first is ApiResponse.Loading)
 
@@ -98,5 +99,35 @@ class WeatherViewModelTest {
 
         }
 
+    }
+
+    @Test
+    fun `fetchWeatherForecast emits Loading then Error when exception is thrown`() = runTest {
+
+        // given — fake repo that throws an exception
+        val fakeRepo = FakeWeatherRepository(
+            exception = IOException("Network error")
+        )
+
+        viewModel = WeatherViewModel(fakeRepo)
+
+        viewModel.weatherResult.test {
+
+            // when
+            viewModel.fetchWeatherForecast()
+
+            // then — first emission is Loading
+            val first = awaitItem()
+            assertTrue(first is ApiResponse.Loading)
+
+            // then — next emission is Error (caught by repository's catch block)
+            val second = awaitItem()
+            assertTrue(second is ApiResponse.Error)
+
+            val error = second as ApiResponse.Error
+            assertEquals("Network error", error.message)
+
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 }

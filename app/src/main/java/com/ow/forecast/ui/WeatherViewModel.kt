@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -21,9 +22,9 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewModel() {
+class WeatherViewModel @Inject constructor(private val repo: WeatherRepository) : ViewModel() {
 
-    private val refreshTrigger = MutableSharedFlow<Unit>(replay = 1)
+    private val refreshTrigger = MutableSharedFlow<Unit>(1)
 
     // 🔑 Cache (source of truth for details screen)
     private val _forecastCache = MutableStateFlow<List<ForecastUiModel>>(emptyList())
@@ -40,6 +41,9 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
         refreshTrigger
             .flatMapLatest {
                 repo.getWeather()
+            }
+            .catch { e ->
+                emit(ApiResponse.Error(e.message ?: "Unknown error"))
             }
             .onEach { result ->
                 if (result is ApiResponse.Success) {
@@ -60,7 +64,7 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
             .stateIn(
                 initialValue = ApiResponse.Loading,
                 scope = viewModelScope,
-                started = SharingStarted.Eagerly
+                started = SharingStarted.WhileSubscribed(5000)
             )
 
 
@@ -75,5 +79,4 @@ class WeatherViewModel @Inject constructor(val repo: WeatherRepository) : ViewMo
         val list = _forecastCache.value
         return list.firstOrNull { it.id == id }
     }
-
 }

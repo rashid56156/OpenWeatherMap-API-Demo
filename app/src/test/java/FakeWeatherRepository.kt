@@ -5,12 +5,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class FakeWeatherRepository(
-    private val result: ApiResponse<Weather>
+    private val result: ApiResponse<Weather>? = null,
+    private val exception: Exception? = null
 ) : WeatherRepository {
 
     override fun getWeather(): Flow<ApiResponse<Weather>> = flow {
-        // you can emit Loading too if you want to match prod behavior
         emit(ApiResponse.Loading)
-        emit(result)
+        exception?.let { throw it }
+        result?.let { emit(it) }
     }
 }

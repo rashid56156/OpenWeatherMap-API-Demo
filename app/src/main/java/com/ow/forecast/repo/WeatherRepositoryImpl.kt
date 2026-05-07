@@ -27,7 +27,7 @@ class WeatherRepositoryImpl @Inject constructor(private val api: ApiService) : W
 
         } catch (e: Exception) {
             // Step 4: Emit Error state for exceptions
-            emit(ApiResponse.Error(e.localizedMessage ?: "Unknown Error"))
+            emit(ApiResponse.Error(e.message ?: "Unknown Error"))
         }
     }
 
