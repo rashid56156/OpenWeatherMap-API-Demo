@@ -7,6 +7,7 @@ import com.ow.forecast.api.ApiResponse
 import com.ow.forecast.models.ForecastUiModel
 import com.ow.forecast.models.Weather
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -41,25 +43,13 @@ class WeatherViewModel @Inject constructor(private val repo: WeatherRepository) 
         refreshTrigger
             .flatMapLatest {
                 repo.getWeather()
+                    .flowOn(Dispatchers.IO)
             }
             .catch { e ->
                 emit(ApiResponse.Error(e.message ?: "Unknown error"))
             }
             .onEach { result ->
-                if (result is ApiResponse.Success) {
-                    _forecastCache.value = result.data.list.orEmpty().mapNotNull { item ->
-                        val id = item.dt ?: return@mapNotNull null
-                        ForecastUiModel(
-                            id = id,
-                            dateText = item.dtTxt.orEmpty(),
-                            temp = item.main?.temp,
-                            pressure = item.main?.pressure,
-                            humidity = item.main?.humidity,
-                            weatherId = item.weather?.firstOrNull()?.id
-                        )
-
-                    }
-                }
+                updateCache(result)
             }
             .stateIn(
                 initialValue = ApiResponse.Loading,
@@ -67,6 +57,21 @@ class WeatherViewModel @Inject constructor(private val repo: WeatherRepository) 
                 started = SharingStarted.WhileSubscribed(5000)
             )
 
+    private fun updateCache(result: ApiResponse<Weather>) {
+        if (result is ApiResponse.Success) {
+            _forecastCache.value = result.data.list.orEmpty().mapNotNull { item ->
+                val id = item.dt ?: return@mapNotNull null
+                ForecastUiModel(
+                    id = id,
+                    dateText = item.dtTxt.orEmpty(),
+                    temp = item.main?.temp,
+                    pressure = item.main?.pressure,
+                    humidity = item.main?.humidity,
+                    weatherId = item.weather?.firstOrNull()?.id
+                )
+            }
+        }
+    }
 
     fun fetchWeatherForecast() {
         viewModelScope.launch {
@@ -76,7 +81,6 @@ class WeatherViewModel @Inject constructor(private val repo: WeatherRepository) 
 
     // 🔍 Used by details screen
     fun getForecastById(id: Int): ForecastUiModel? {
-        val list = _forecastCache.value
-        return list.firstOrNull { it.id == id }
+        return _forecastCache.value.firstOrNull { it.id == id }
     }
 }
